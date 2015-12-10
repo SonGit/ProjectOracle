@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Xft;
 
 public enum PlayerState
 {
@@ -20,12 +21,14 @@ public class Player : MonoBehaviour {
     public BaseCommand _currentCommand;
     public PlayerState _currentState;
     public GameObject _enemyFound;
+    public XWeaponTrail _weaponTrail;
+    public TrailRenderer _dashingTrail;
+
     //Caches
     private Transform t;
     private string[] _walkableTerrain;
     private RaycastHit rayHit;
     private GameObject[] _enemies;
-    private bool Lock;
     private BaseCommand _cacheCommand;
     //Available Commands
     IdleCommand _idleCommand;
@@ -42,7 +45,8 @@ public class Player : MonoBehaviour {
         _moveAttackCommand = gameObject.AddComponent<MoveAttackCommand>();
         _currentCommand = _idleCommand;
 
-        Lock = false;
+        _dashingTrail.enabled = false;
+        _weaponTrail.Deactivate();
         FlushPreviousCommand();
 	}
 	
@@ -96,11 +100,13 @@ public class Player : MonoBehaviour {
         switch (state)
         {
             case PlayerState.DASH:
+                _dashingTrail.enabled = true;
                 command = _moveCommand;
                 command.Init(_animator, rayHit.point, Unlock);
                 LookAt(rayHit.point);
                 break;
             case PlayerState.MOVE_ATTACK:
+                _weaponTrail.Activate();
                 command = _moveAttackCommand;
                 if (!_currentCommand._isInteruptable)
                 {
@@ -147,7 +153,11 @@ public class Player : MonoBehaviour {
         }
         else
         _currentCommand = _idleCommand;
+
+        _weaponTrail.Deactivate();
+        _dashingTrail.enabled = false;
     }
+
 
     void FlushPreviousCommand()
     {
