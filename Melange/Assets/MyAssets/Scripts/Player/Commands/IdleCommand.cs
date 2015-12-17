@@ -22,6 +22,6 @@ public class IdleCommand : BaseCommand
 
     public override void Execute()
     {
-
+    //    print("IDLING");
     }
 }

@@ -33,14 +33,16 @@ public class MoveCommand : BaseCommand
 	void Start () {
 
 	}
-    public override void Init(Animator animator, Vector3 destination,Callback callback)
+    public override void Init(Animator animator, Vector3 destination,Callback callback = null)
     {
         _destination = destination;
         _animator = animator;
         _isInteruptable = true;
         t = transform;
 
+        if(callback != null)
         _callback = callback;
+
         _isRunning = true;
         needPathfinding = GetPath(_destination);
     }
@@ -53,7 +55,6 @@ public class MoveCommand : BaseCommand
 	 public override void Execute()
     {
         if (!_isRunning) return;
-
         if (!needPathfinding)
         {
             t.position = Vector3.Lerp(t.position, _destination, 20 * Time.deltaTime);
@@ -102,7 +103,7 @@ public class MoveCommand : BaseCommand
          if (Physics.Linecast(t.position, destination))
          {
              currentWaypoint = 0;
-             NavMesh.CalculatePath(transform.position, destination, -1, path);
+             NavMesh.CalculatePath(t.position, destination, -1, path);
              print("On Path");
              return true;
          }

@@ -34,6 +34,8 @@ public class Player : MonoBehaviour {
     IdleCommand _idleCommand;
     MoveCommand _moveCommand;
     MoveAttackCommand _moveAttackCommand;
+    MoveToAnotherLevelCommand _moveToLevelCommand;
+
 	// Use this for initialization
 	void Start () {
         t = transform;
@@ -43,6 +45,7 @@ public class Player : MonoBehaviour {
         _idleCommand = gameObject.AddComponent<IdleCommand>();
         _moveCommand = gameObject.AddComponent<MoveCommand>();
         _moveAttackCommand = gameObject.AddComponent<MoveAttackCommand>();
+        _moveToLevelCommand = gameObject.AddComponent<MoveToAnotherLevelCommand>();
         _currentCommand = _idleCommand;
 
         _dashingTrail.enabled = false;
@@ -134,12 +137,12 @@ public class Player : MonoBehaviour {
       
     }
 
+    //This is called when a non-interrupable command has been completed
     private void Unlock()
     {
+        FlushPreviousCommand();
         if(_cacheCommand != null)
         {
-            print("release");
-            FlushPreviousCommand();
             _cacheCommand.enabled = true;
 
             if(_storedEnemy != null) //As a rule, if stored enemy is not null, means the cache command need to be init with a enemy
@@ -152,14 +155,34 @@ public class Player : MonoBehaviour {
             _cacheCommand = null;
         }
         else
-        _currentCommand = _idleCommand;
+        {
+            _currentCommand = _idleCommand;
+        }
+     
 
         _weaponTrail.Deactivate();
         _dashingTrail.enabled = false;
     }
 
+    public void GoToAnotherLevel(Transform startPoint)
+    {
+        FlushPreviousCommand();
+        BaseCommand command = _moveToLevelCommand;
+        command.enabled = true;
+        command.Init(_animator, startPoint.position, test);
 
-    void FlushPreviousCommand()
+        _currentCommand = command;
+        LookAt(startPoint.position);
+    }
+
+    private void test()
+    {
+        FlushPreviousCommand();
+        _idleCommand.enabled = true;
+        _currentCommand = _idleCommand;
+    }
+
+    private void FlushPreviousCommand()
     {
         BaseCommand[] commands = this.GetComponentsInChildren<BaseCommand>();
         foreach(BaseCommand command in commands)
