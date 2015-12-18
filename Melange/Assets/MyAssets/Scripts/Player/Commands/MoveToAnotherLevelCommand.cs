@@ -58,4 +58,9 @@ public class MoveToAnotherLevelCommand : BaseCommand
         }
     }
 
+    public override void Reset()
+    {
+        _isRunning = false;
+    }
+
 }

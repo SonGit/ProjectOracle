@@ -61,6 +61,12 @@ public class MoveAttackCommand : BaseCommand
         _isAttacking = true;
         _isRunning = true;
     }
+
+    public override void Reset()
+    {
+        _isAttacking = false;
+        _isRunning = false;
+    }
     public PlayerState GetState()
     {
         return _state;
@@ -102,6 +108,8 @@ public class MoveAttackCommand : BaseCommand
                 return;
             }
         }
+
+        LookAt(_enemy.transform.position);
     }
 
     private void Attack()
@@ -150,6 +158,14 @@ public class MoveAttackCommand : BaseCommand
         {
             return false;
         }
+    }
+
+    private void LookAt(Vector3 worldPosition)
+    {
+        Vector3 targetPostition = new Vector3(worldPosition.x,
+                                        t.position.y,
+                                       worldPosition.z);
+        t.LookAt(targetPostition);
     }
     }
 

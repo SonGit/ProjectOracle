@@ -24,4 +24,9 @@ public class IdleCommand : BaseCommand
     {
     //    print("IDLING");
     }
+
+    public override void Reset()
+    {
+
+    }
 }

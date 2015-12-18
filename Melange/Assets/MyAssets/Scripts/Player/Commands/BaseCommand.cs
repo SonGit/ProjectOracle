@@ -9,5 +9,5 @@ public abstract class BaseCommand : MonoBehaviour {
     public virtual void Init(Animator animator, Vector3 vectorParam, Callback callback = null) { }
     public virtual void Init(){}
     public abstract void Execute();
-
+    public abstract void Reset();
 }

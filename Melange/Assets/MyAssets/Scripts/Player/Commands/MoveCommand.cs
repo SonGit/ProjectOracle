@@ -114,4 +114,9 @@ public class MoveCommand : BaseCommand
          }
      }
 
+     public override void Reset()
+     {
+         _isRunning = false;
+     }
+
 }

@@ -103,10 +103,11 @@ public class Player : MonoBehaviour {
         switch (state)
         {
             case PlayerState.DASH:
-                _dashingTrail.enabled = true;
                 _weaponTrail.Deactivate();
+                _dashingTrail.enabled = true;
                 command = _moveCommand;
                 command.Init(_animator, rayHit.point, Unlock);
+                LookAt(rayHit.point);
                 break;
             case PlayerState.MOVE_ATTACK:
                 _weaponTrail.Activate();
@@ -147,10 +148,10 @@ public class Player : MonoBehaviour {
 
             if(_storedEnemy != null) //As a rule, if stored enemy is not null, means the cache command need to be init with a enemy
             {
+                
                 _cacheCommand.Init(_animator, _storedEnemy, Unlock);
                 _storedEnemy = null;
             }
-
             _currentCommand = _cacheCommand;
             _cacheCommand = null;
         }
@@ -159,7 +160,6 @@ public class Player : MonoBehaviour {
             _currentCommand = _idleCommand;
         }
      
-       // _weaponTrail.Deactivate();
         _dashingTrail.enabled = false;
     }
 

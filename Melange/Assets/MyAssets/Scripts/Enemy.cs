@@ -54,10 +54,10 @@ public class Enemy : MonoBehaviour {
     IEnumerator Damage()
     {
         int rand = Random.Range(0, _deathPhrases.Length);
-        _voice.Speak(_deathPhrases[rand]);
+       // _voice.Speak(_deathPhrases[rand]);
         yield return new WaitForSeconds(0.25f);
         myScript.Damage(100);
-        GameController.Instance.OnEnemyKilled();
+       // GameController.Instance.OnEnemyKilled();
         yield return null;
     }
 
@@ -67,7 +67,7 @@ public class Enemy : MonoBehaviour {
         {
             yield return new WaitForSeconds(Random.Range(9, 12));
             int rand = Random.Range(0,_attackPhrases.Length);
-            _voice.Speak(_attackPhrases[rand]);
+            //_voice.Speak(_attackPhrases[rand]);
         }
     }
 
