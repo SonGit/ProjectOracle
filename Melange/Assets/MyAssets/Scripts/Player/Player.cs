@@ -104,9 +104,9 @@ public class Player : MonoBehaviour {
         {
             case PlayerState.DASH:
                 _dashingTrail.enabled = true;
+                _weaponTrail.Deactivate();
                 command = _moveCommand;
                 command.Init(_animator, rayHit.point, Unlock);
-                LookAt(rayHit.point);
                 break;
             case PlayerState.MOVE_ATTACK:
                 _weaponTrail.Activate();
@@ -159,8 +159,7 @@ public class Player : MonoBehaviour {
             _currentCommand = _idleCommand;
         }
      
-
-        _weaponTrail.Deactivate();
+       // _weaponTrail.Deactivate();
         _dashingTrail.enabled = false;
     }
 

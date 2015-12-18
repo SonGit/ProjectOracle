@@ -46,7 +46,7 @@ public class MoveAttackCommand : BaseCommand
     private Transform t;
     private bool needPathfinding = false; // if there is no need for pathfinding, just dash to position to save calculation time
     private Callback _callback;
-    public float _attackLength = 0.5f;
+    public float _attackLength = 0.75f;
 	// Use this for initialization
     public override void Init(Animator animator, GameObject objectParam,Callback callback )
     {
@@ -72,7 +72,7 @@ public class MoveAttackCommand : BaseCommand
         if (!needPathfinding)
         {
             t.position = Vector3.Lerp(t.position, _enemy.transform.position, 20 * Time.deltaTime);
-            if (Vector3.Distance(t.position, _enemy.transform.position) < 1f)
+            if (Vector3.Distance(t.position, _enemy.transform.position) < 1.5f)
             {
                 Attack();
                 return;
